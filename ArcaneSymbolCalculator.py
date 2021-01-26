@@ -2,8 +2,10 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import datetime
 
 symbolRequireExpList = [12, 15, 20, 27, 36, 47, 60, 75, 92, 111, 132, 155, 180, 207, 236, 267, 300, 335, 372]
+forceRequireExpList = [29, 76, 141, 224, 325, 444, 581, 736, 90, 1100]
 requireMesoList_VJ = [9500000, 16630000, 23760000, 30890000, 38020000, 45150000, 52280000, 59410000, 66540000, 73670000, 80800000, 87930000, 95060000, 102190000, 109320000, 116450000, 123580000, 130710000, 137840000]
 requireMesoList = [19040000, 25640000, 32240000, 38850000, 45440000, 52040000, 58640000, 65240000, 71840000, 78440000, 85040000, 91640000, 98240000, 104840000, 111440000, 124640000, 131240000, 137840000]
+requireMesoListForce = [185400000, 273900000, 362400000, 450900000, 539400000, 62790000, 716400000, 804900000, 893400000, 981900000]
 today = datetime.date.today()
 
 class Ui_Dialog(object):
@@ -1128,11 +1130,11 @@ class Ui_Dialog(object):
             else:
                 dailySymbol_CCI += 8
 
-        if self.hungryMuto == "Easy":
+        if self.hungryMuto.currentText() == "Easy":
             dailySymbol_CCI += 3
-        elif self.hungryMuto == "Normal":
+        elif self.hungryMuto.currentText() == "Normal":
             dailySymbol_CCI += 9
-        elif self.hungryMuto == "Hard":
+        elif self.hungryMuto.currentText() == "Hard":
             dailySymbol_CCI += 15
         
         self.expRatio_CCI.setText(str(currentExp_CCI) + " / " + str(requireExp_CCI) + "(" + str(int(currentExp_CCI / requireExp_CCI * 100)) + "%)")
@@ -1151,123 +1153,119 @@ class Ui_Dialog(object):
         requireMeso_LC = sum(requireMesoList[currentLevel_LC-1:])
         requireSymbol_LC = sum(symbolRequireExpList[currentLevel_LC:]) + (symbolRequireExpList[currentLevel_LC-1] - currentExp_LC)
         
-        dailySymbol = 0
-        if self.quest_VJ.isChecked() == True:
-            dailySymbol_VJ += 16
+        dailySymbol_LC = 0
+        if self.quest_LC.isChecked() == True:
+            dailySymbol_LC += 4
+
+        dreamCoin = int(self.dreamBreaker.text())
+        dailySymbol_LC += (dreamCoin % 30)
         
+        self.expRatio_LC.setText(str(currentExp_LC) + " / " + str(requireExp_LC) + "(" + str(int(currentExp_LC / requireExp_LC * 100)) + "%)")
+        self.requireMeso_LC.setText(str(format(requireMeso_LC, ',') + " meso"))
         
-        self.expRatio_VJ.setText(str(currentExp_VJ) + " / " + str(requireExp_VJ) + "(" + str(int(currentExp_VJ / requireExp_VJ * 100)) + "%)")
-        self.requireMeso_VJ.setText(str(format(requireMeso_VJ, ',') + " meso"))
-        
-        if dailySymbol_VJ != 0:
-            dayLeft = int(requireSymbol_VJ/dailySymbol_VJ) + 1
-            self.remainDate_VJ.setText(str(dayLeft)+ " days left")
-            self.finishDate_VJ.setText(str(today + datetime.timedelta(days=dayLeft)))
+        if dailySymbol_LC != 0:
+            dayLeft = int(requireSymbol_LC/dailySymbol_LC) + 1
+            self.remainDate_LC.setText(str(dayLeft)+ " days left")
+            self.finishDate_LC.setText(str(today + datetime.timedelta(days=dayLeft)))
 
     def calcArcana(self):
-        currentLevel_VJ = int(self.currentLevel_VJ.text())
-        currentExp_VJ = int(self.currentExp_VJ.text())
-        requireExp_VJ = symbolRequireExpList[currentLevel_VJ - 1]
-        requireMeso_VJ = sum(requireMesoList_VJ[currentLevel_VJ-1:])
-        requireSymbol_VJ = sum(symbolRequireExpList[currentLevel_VJ:]) + (symbolRequireExpList[currentLevel_VJ-1] - currentExp_VJ)
+        currentLevel_AR = int(self.currentLevel_AR.text())
+        currentExp_AR = int(self.currentExp_AR.text())
+        requireExp_AR = symbolRequireExpList[currentLevel_AR - 1]
+        requireMeso_AR = sum(requireMesoList[currentLevel_AR-1:])
+        requireSymbol_AR = sum(symbolRequireExpList[currentLevel_AR:]) + (symbolRequireExpList[currentLevel_AR-1] - currentExp_AR)
         
-        dailySymbol_VJ = 0
-        if self.quest_VJ.isChecked() == True:
-            dailySymbol_VJ += 16
-        if self.spectrum.isChecked() == True:
-            dailySymbol_VJ += 6
+        dailySymbol_AR = 0
+        if self.quest_AR.isChecked() == True:
+            dailySymbol_AR += 8
+
+        spiritSaviorSymbol = int(self.spiritSavior.text())
+        dailySymbol_AR += spiritSaviorSymbol
+
         
-        self.expRatio_VJ.setText(str(currentExp_VJ) + " / " + str(requireExp_VJ) + "(" + str(int(currentExp_VJ / requireExp_VJ * 100)) + "%)")
-        self.requireMeso_VJ.setText(str(format(requireMeso_VJ, ',') + " meso"))
+        self.expRatio_AR.setText(str(currentExp_AR) + " / " + str(requireExp_AR) + "(" + str(int(currentExp_AR / requireExp_AR * 100)) + "%)")
+        self.requireMeso_AR.setText(str(format(requireMeso_AR, ',') + " meso"))
         
-        if dailySymbol_VJ != 0:
-            dayLeft = int(requireSymbol_VJ/dailySymbol_VJ) + 1
-            self.remainDate_VJ.setText(str(dayLeft)+ " days left")
-            self.finishDate_VJ.setText(str(today + datetime.timedelta(days=dayLeft)))
+        if dailySymbol_AR != 0:
+            dayLeft = int(requireSymbol_AR/dailySymbol_AR) + 1
+            self.remainDate_AR.setText(str(dayLeft)+ " days left")
+            self.finishDate_AR.setText(str(today + datetime.timedelta(days=dayLeft)))
 
     def calcMorass(self):
-        currentLevel_VJ = int(self.currentLevel_VJ.text())
-        currentExp_VJ = int(self.currentExp_VJ.text())
-        requireExp_VJ = symbolRequireExpList[currentLevel_VJ - 1]
-        requireMeso_VJ = sum(requireMesoList_VJ[currentLevel_VJ-1:])
-        requireSymbol_VJ = sum(symbolRequireExpList[currentLevel_VJ:]) + (symbolRequireExpList[currentLevel_VJ-1] - currentExp_VJ)
+        currentLevel_MR = int(self.currentLevel_MR.text())
+        currentExp_MR = int(self.currentExp_MR.text())
+        requireExp_MR = symbolRequireExpList[currentLevel_MR - 1]
+        requireMeso_MR = sum(requireMesoList[currentLevel_MR-1:])
+        requireSymbol_MR = sum(symbolRequireExpList[currentLevel_MR:]) + (symbolRequireExpList[currentLevel_MR-1] - currentExp_MR)
         
-        dailySymbol_VJ = 0
-        if self.quest_VJ.isChecked() == True:
-            dailySymbol_VJ += 16
-        if self.spectrum.isChecked() == True:
-            dailySymbol_VJ += 6
+        dailySymbol_MR = 0
+        if self.quest_MR.isChecked() == True:
+            dailySymbol_MR += 8
         
-        self.expRatio_VJ.setText(str(currentExp_VJ) + " / " + str(requireExp_VJ) + "(" + str(int(currentExp_VJ / requireExp_VJ * 100)) + "%)")
-        self.requireMeso_VJ.setText(str(format(requireMeso_VJ, ',') + " meso"))
+        self.expRatio_MR.setText(str(currentExp_MR) + " / " + str(requireExp_MR) + "(" + str(int(currentExp_MR / requireExp_MR * 100)) + "%)")
+        self.requireMeso_MR.setText(str(format(requireMeso_MR, ',') + " meso"))
         
-        if dailySymbol_VJ != 0:
-            dayLeft = int(requireSymbol_VJ/dailySymbol_VJ) + 1
-            self.remainDate_VJ.setText(str(dayLeft)+ " days left")
-            self.finishDate_VJ.setText(str(today + datetime.timedelta(days=dayLeft)))
+        if dailySymbol_MR != 0:
+            dayLeft = int(requireSymbol_MR/dailySymbol_MR) + 1
+            self.remainDate_MR.setText(str(dayLeft)+ " days left")
+            self.finishDate_MR.setText(str(today + datetime.timedelta(days=dayLeft)))
 
     def calcEsfera(self):
-        currentLevel_VJ = int(self.currentLevel_VJ.text())
-        currentExp_VJ = int(self.currentExp_VJ.text())
-        requireExp_VJ = symbolRequireExpList[currentLevel_VJ - 1]
-        requireMeso_VJ = sum(requireMesoList_VJ[currentLevel_VJ-1:])
-        requireSymbol_VJ = sum(symbolRequireExpList[currentLevel_VJ:]) + (symbolRequireExpList[currentLevel_VJ-1] - currentExp_VJ)
+        currentLevel_ES = int(self.currentLevel_ES.text())
+        currentExp_ES = int(self.currentExp_ES.text())
+        requireExp_ES = symbolRequireExpList[currentLevel_ES - 1]
+        requireMeso_ES = sum(requireMesoList[currentLevel_ES-1:])
+        requireSymbol_ES = sum(symbolRequireExpList[currentLevel_ES:]) + (symbolRequireExpList[currentLevel_ES-1] - currentExp_ES)
         
-        dailySymbol_VJ = 0
-        if self.quest_VJ.isChecked() == True:
-            dailySymbol_VJ += 16
-        if self.spectrum.isChecked() == True:
-            dailySymbol_VJ += 6
+        dailySymbol_ES = 0
+        if self.quest_ES.isChecked() == True:
+            dailySymbol_ES += 8
         
-        self.expRatio_VJ.setText(str(currentExp_VJ) + " / " + str(requireExp_VJ) + "(" + str(int(currentExp_VJ / requireExp_VJ * 100)) + "%)")
-        self.requireMeso_VJ.setText(str(format(requireMeso_VJ, ',') + " meso"))
+        self.expRatio_ES.setText(str(currentExp_ES) + " / " + str(requireExp_ES) + "(" + str(int(currentExp_ES / requireExp_ES * 100)) + "%)")
+        self.requireMeso_ES.setText(str(format(requireMeso_ES, ',') + " meso"))
         
-        if dailySymbol_VJ != 0:
-            dayLeft = int(requireSymbol_VJ/dailySymbol_VJ) + 1
-            self.remainDate_VJ.setText(str(dayLeft)+ " days left")
-            self.finishDate_VJ.setText(str(today + datetime.timedelta(days=dayLeft)))
+        if dailySymbol_ES != 0:
+            dayLeft = int(requireSymbol_ES/dailySymbol_ES) + 1
+            self.remainDate_ES.setText(str(dayLeft)+ " days left")
+            self.finishDate_ES.setText(str(today + datetime.timedelta(days=dayLeft)))
 
     def calcCernium(self):
-        currentLevel_VJ = int(self.currentLevel_VJ.text())
-        currentExp_VJ = int(self.currentExp_VJ.text())
-        requireExp_VJ = symbolRequireExpList[currentLevel_VJ - 1]
-        requireMeso_VJ = sum(requireMesoList_VJ[currentLevel_VJ-1:])
-        requireSymbol_VJ = sum(symbolRequireExpList[currentLevel_VJ:]) + (symbolRequireExpList[currentLevel_VJ-1] - currentExp_VJ)
+        currentLevel_CR = int(self.currentLevel_CR.text())
+        currentExp_CR = int(self.currentExp_CR.text())
+        requireExp_CR = forceRequireExpList[currentLevel_CR - 1]
+        requireMeso_CR = sum(requireMesoListForce[currentLevel_CR-1:])
+        requireSymbol_CR = sum(forceRequireExpList[currentLevel_CR:]) + (forceRequireExpList[currentLevel_CR-1] - currentExp_CR)
         
-        dailySymbol_VJ = 0
-        if self.quest_VJ.isChecked() == True:
-            dailySymbol_VJ += 16
-        if self.spectrum.isChecked() == True:
-            dailySymbol_VJ += 6
+        dailySymbol_CR = 0
+        if self.quest_CR.isChecked() == True:
+            dailySymbol_CR += 10
         
-        self.expRatio_VJ.setText(str(currentExp_VJ) + " / " + str(requireExp_VJ) + "(" + str(int(currentExp_VJ / requireExp_VJ * 100)) + "%)")
-        self.requireMeso_VJ.setText(str(format(requireMeso_VJ, ',') + " meso"))
+        self.expRatio_CR.setText(str(currentExp_CR) + " / " + str(requireExp_CR) + "(" + str(int(currentExp_CR / requireExp_CR * 100)) + "%)")
+        self.requireMeso_CR.setText(str(format(requireMeso_CR, ',') + " meso"))
         
-        if dailySymbol_VJ != 0:
-            dayLeft = int(requireSymbol_VJ/dailySymbol_VJ) + 1
-            self.remainDate_VJ.setText(str(dayLeft)+ " days left")
-            self.finishDate_VJ.setText(str(today + datetime.timedelta(days=dayLeft)))
+        if dailySymbol_CR != 0:
+            dayLeft = int(requireSymbol_CR/dailySymbol_CR) + 1
+            self.remainDate_CR.setText(str(dayLeft)+ " days left")
+            self.finishDate_CR.setText(str(today + datetime.timedelta(days=dayLeft)))
 
     def calcHotelArcs(self):
-        currentLevel_VJ = int(self.currentLevel_VJ.text())
-        currentExp_VJ = int(self.currentExp_VJ.text())
-        requireExp_VJ = symbolRequireExpList[currentLevel_VJ - 1]
-        requireMeso_VJ = sum(requireMesoList_VJ[currentLevel_VJ-1:])
-        requireSymbol_VJ = sum(symbolRequireExpList[currentLevel_VJ:]) + (symbolRequireExpList[currentLevel_VJ-1] - currentExp_VJ)
+        currentLevel_HA = int(self.currentLevel_HA.text())
+        currentExp_HA = int(self.currentExp_HA.text())
+        requireExp_HA = forceRequireExpList[currentLevel_HA - 1]
+        requireMeso_HA = sum(requireMesoListForce[currentLevel_HA-1:])
+        requireSymbol_HA = sum(forceRequireExpList[currentLevel_HA:]) + (forceRequireExpList[currentLevel_HA-1] - currentExp_HA)
         
-        dailySymbol_VJ = 0
-        if self.quest_VJ.isChecked() == True:
-            dailySymbol_VJ += 16
-        if self.spectrum.isChecked() == True:
-            dailySymbol_VJ += 6
+        dailySymbol_HA = 0
+        if self.quest_HA.isChecked() == True:
+            dailySymbol_HA += 10
         
-        self.expRatio_VJ.setText(str(currentExp_VJ) + " / " + str(requireExp_VJ) + "(" + str(int(currentExp_VJ / requireExp_VJ * 100)) + "%)")
-        self.requireMeso_VJ.setText(str(format(requireMeso_VJ, ',') + " meso"))
+        self.expRatio_HA.setText(str(currentExp_HA) + " / " + str(requireExp_HA) + "(" + str(int(currentExp_HA / requireExp_HA * 100)) + "%)")
+        self.requireMeso_VJ.setText(str(format(requireMeso_HA, ',') + " meso"))
         
-        if dailySymbol_VJ != 0:
-            dayLeft = int(requireSymbol_VJ/dailySymbol_VJ) + 1
-            self.remainDate_VJ.setText(str(dayLeft)+ " days left")
-            self.finishDate_VJ.setText(str(today + datetime.timedelta(days=dayLeft)))
+        if dailySymbol_HA != 0:
+            dayLeft = int(requireSymbol_HA/dailySymbol_HA) + 1
+            self.remainDate_HA.setText(str(dayLeft)+ " days left")
+            self.finishDate_HA.setText(str(today + datetime.timedelta(days=dayLeft)))
     
 
 
