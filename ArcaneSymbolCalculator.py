@@ -1081,6 +1081,7 @@ class Ui_Dialog(object):
         self.hungryMuto.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
+        #PyQt Text Changed Functions
         self.currentExp_VJ.textChanged.connect(self.calcVanishingJourney)
         self.currentExp_CCI.textChanged.connect(self.calcChuchuIsland)
         self.currentExp_LC.textChanged.connect(self.calcLachelein)
@@ -1090,6 +1091,8 @@ class Ui_Dialog(object):
         self.currentExp_CR.textChanged.connect(self.calcCernium)
         self.currentExp_HA.textChanged.connect(self.calcHotelArcs)
 
+    #Region Functions
+        
     #Vanishing Journey    
     def calcVanishingJourney(self):
         currentLevel_VJ = int(self.currentLevel_VJ.text())
@@ -1168,6 +1171,7 @@ class Ui_Dialog(object):
             self.remainDate_LC.setText(str(dayLeft)+ " days left")
             self.finishDate_LC.setText(str(today + datetime.timedelta(days=dayLeft)))
 
+    #Arcana
     def calcArcana(self):
         currentLevel_AR = int(self.currentLevel_AR.text())
         currentExp_AR = int(self.currentExp_AR.text())
@@ -1191,6 +1195,7 @@ class Ui_Dialog(object):
             self.remainDate_AR.setText(str(dayLeft)+ " days left")
             self.finishDate_AR.setText(str(today + datetime.timedelta(days=dayLeft)))
 
+    #Morass
     def calcMorass(self):
         currentLevel_MR = int(self.currentLevel_MR.text())
         currentExp_MR = int(self.currentExp_MR.text())
@@ -1210,6 +1215,7 @@ class Ui_Dialog(object):
             self.remainDate_MR.setText(str(dayLeft)+ " days left")
             self.finishDate_MR.setText(str(today + datetime.timedelta(days=dayLeft)))
 
+    #Esfera
     def calcEsfera(self):
         currentLevel_ES = int(self.currentLevel_ES.text())
         currentExp_ES = int(self.currentExp_ES.text())
@@ -1229,6 +1235,7 @@ class Ui_Dialog(object):
             self.remainDate_ES.setText(str(dayLeft)+ " days left")
             self.finishDate_ES.setText(str(today + datetime.timedelta(days=dayLeft)))
 
+    #Cernium
     def calcCernium(self):
         currentLevel_CR = int(self.currentLevel_CR.text())
         currentExp_CR = int(self.currentExp_CR.text())
@@ -1248,6 +1255,7 @@ class Ui_Dialog(object):
             self.remainDate_CR.setText(str(dayLeft)+ " days left")
             self.finishDate_CR.setText(str(today + datetime.timedelta(days=dayLeft)))
 
+    #Hotel Arcs
     def calcHotelArcs(self):
         currentLevel_HA = int(self.currentLevel_HA.text())
         currentExp_HA = int(self.currentExp_HA.text())
