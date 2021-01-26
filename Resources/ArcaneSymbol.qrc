@@ -1,0 +1,14 @@
+<RCC>
+  <qresource prefix="ArcaneSymbol">
+    <file>ChuChuIsland.png</file>
+    <file>Lachelein.png</file>
+    <file>Arcana.png</file>
+    <file>Esfera.png</file>
+    <file>Morass.png</file>
+    <file>VanishingJourney.png</file>
+  </qresource>
+  <qresource prefix="AuthenticForce">
+    <file>HotelArcs.png</file>
+    <file>Cernium.png</file>
+  </qresource>
+</RCC>
