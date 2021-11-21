@@ -1080,7 +1080,6 @@ class Ui_Dialog(object):
         self.retranslateUi(Dialog)
         self.hungryMuto.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
-
         #PyQt Text Changed Functions
         self.currentExp_VJ.textChanged.connect(self.calcVanishingJourney)
         self.currentExp_CCI.textChanged.connect(self.calcChuchuIsland)
